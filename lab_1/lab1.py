@@ -57,6 +57,11 @@ x0 = 16807
 alpha0 = 16807
 K = 64
 
+x1 = 8195
+alpha1 = 8195
+c = 46
+k = 64
+
 m = 2 ** 31
 
 hi_squared_critical_value = 16.919
@@ -78,4 +83,24 @@ print('Kolmogorov criteria: ' + str(kolm_test1[1]) + ' <= '
 
 plt.hist(x, 10, ec='#993300', facecolor='#ff9900')
 plt.title('Multiplexial congruential generator')
+plt.show()
+
+x = linear_congruential_generator(x0, alpha0, 0, m)
+y = linear_congruential_generator(x1, alpha1, c, m)
+mclar_mars_gen = mclaren_marsaglia_generator(x, y, k)
+z = [next(mclar_mars_gen) for _ in range(1000)]
+# print('\n'.join(map(str, z)))
+hi_squa_test2 = hi_squared_test(z, 10, hi_squared_critical_value)
+kolm_test2 = kolmogorov_test(z, kolmogorov_critical_value)
+
+print('\nMcLaren marsaglia generator:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test2[1]) + ' <= '
+      + str(hi_squared_critical_value) if hi_squa_test2[0]
+      else 'Zero hypothesis fails by Hi Squared Pirson criteria.')
+print('Kolmogorov criteria: ' + str(kolm_test2[1]) + ' <= '
+      + str(kolmogorov_critical_value) if kolm_test2[0]
+      else 'Zero hypothesis fails by Kolmogorov criteria.')
+
+plt.hist(z, 10, ec='#666633', facecolor="#99ff33")
+plt.title('McLaren marsaglia generator')
 plt.show()
