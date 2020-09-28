@@ -1,0 +1,137 @@
+% arara: indent: {overwrite: yes}
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{textcomp}
+\usepackage[OT1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\author{Kirill Tolkun}
+
+\usepackage{csquotes}
+
+\usepackage[14pt]{extsizes}
+
+% настройка полей документа
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	top=10mm,
+	right=10mm,
+	bottom=15mm,
+	left=10mm
+}
+ 
+\usepackage{indentfirst}
+
+\setcounter{section}{0}
+\setcounter{subsection}{1}
+\setcounter{subsubsection}{1}
+
+% Нумерация фурмул относительно нумерации секций
+\numberwithin{equation}{section}
+
+% Использование картинок в документе
+\usepackage{graphicx}
+\graphicspath{{lab_1/resources/}}
+\usepackage{subcaption}
+
+\usepackage{multicol}
+\setlength{\columnsep}{0cm}
+
+% для подсветки синтаксиса
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\small\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  numbers=left,
+  stepnumber=1,
+  tabsize=3,
+  extendedchars=\true
+}
+
+\pdfsuppresswarningpagegroup=1
+\begin{document}
+
+\begin{titlepage}
+	\newpage
+
+	\begin{center}
+		МИНИСТЕРСТВО ОБРАЗОВАНИЯ РЕСПУБЛИКИ БЕЛАРУСЬ\\
+		\vspace{4pt}
+		БЕЛОРУССКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ\\
+		\vspace{4pt}
+		ФАКУЛЬТЕТ ПРИКЛАДНОЙ МАТЕМАТИКИ И ИНФОРМАТИКИ\\
+		\vspace{4pt}
+		Кафедра технологий программирования
+	\end{center}
+	\vspace{12em}
+
+	\begin{center}
+		Толкун Кирилл Юрьевич
+	\end{center}
+
+
+	\begin{center}
+		\large\textbf{Отчёт по лабораторным работам по курсу \linebreak ``Имитационное и статистическое моделирование''}
+	\end{center}
+
+	\begin{center}
+		студента 4 курса 8 группы
+	\end{center}
+
+	\begin{center}
+		\textbf{Вариант 10}
+	\end{center}
+
+	\vspace{5em}
+
+	\hfill\parbox{7cm}{
+		\textbf{Преподаватель:}\\
+		Лобач Сергей Викторович\\
+		ассистент кафедры ММАД
+	}
+
+	\vspace{2em}
+	
+	\begin{minipage}[t]{0.7\textwidth}
+		Работа сдана \rule{2 cm}{0,2 pt} {\the\year \ г.}  \\
+		\vskip 0.1em
+		Зачтена \rule{2 cm}{0,2 pt} {\the\year \ г.} \\
+		\vskip 0.1em
+		\rule{6 cm}{0,2 pt} \\		
+		\begin{small}
+		\hskip 1em (подпись преподавателя)
+		\end{small}
+	\end{minipage}
+
+	\vspace{\fill}
+
+	\begin{center}
+		Минск \\2020
+	\end{center}
+
+\end{titlepage}
+\input{lab_1/lab1-report.tex}
+\end{document}
