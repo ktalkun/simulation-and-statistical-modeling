@@ -192,3 +192,29 @@
 \end{equation}
 
 где $n$ - количество элементов в выборке, $n_{i}$ - количество элементов в выборке меньших $x_{i}$.
+
+\subsection{Код программы}
+
+\lstinputlisting[language=Python]{./lab_1/lab1.py}
+
+\subsection{Результат выполнения}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics [width=\textwidth] {results.png}
+	\label{fig:results}
+	\caption{Результат выполнения программы: проверка критерием согласия Пирсона и критерием согласия Колмогорова.}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{multiplexial_congruential_generator.png}
+    \caption{Диаграмма выборки, полученной мультипликативным конгруэнтным методом.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{mclaren_marsaglia_generator.png}
+    \caption{Диаграмма выборки, полученной методом Макларена-Марсальи.}
+  \end{subfigure}
+\end{figure}
