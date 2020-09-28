@@ -33,3 +33,19 @@ def hi_squared_test(values, k, critical_value):
         hi_squared += ((value - p_k) ** 2) / p_k
     #     Для уровня значимости 0.05 при 9-ти степенях свободы.
     return hi_squared < critical_value, hi_squared
+
+
+def kolmogorov_test(values, critical_value):
+    values.sort()
+    Dn = 0
+    i = 0
+    n = len(values)
+    for value in values:
+        i += 1
+        # F(X) = (x-a)/(b-a) = [для a = 0 и b = 1] = x.
+        theoretical_func_res = value
+        # кол-во значение в выборке меньших текущего значения из выборки.
+        empirical_function_result = i / n
+        Dn = max(Dn, theoretical_func_res - empirical_function_result)
+    Dn *= math.sqrt(n)
+    return Dn < critical_value, Dn
