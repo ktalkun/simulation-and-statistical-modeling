@@ -1,5 +1,7 @@
 import math
 
+import matplotlib.pyplot as plt
+
 
 def linear_congruential_generator(x, alpha, c, m):
     while (True):
@@ -49,3 +51,31 @@ def kolmogorov_test(values, critical_value):
         Dn = max(Dn, theoretical_func_res - empirical_function_result)
     Dn *= math.sqrt(n)
     return Dn < critical_value, Dn
+
+
+x0 = 16807
+alpha0 = 16807
+K = 64
+
+m = 2 ** 31
+
+hi_squared_critical_value = 16.919
+kolmogorov_critical_value = 1.359
+
+mult_congr_gen = multiplexial_congruential_generator(x0, alpha0, m)
+x = [next(mult_congr_gen) for _ in range(1000)]
+# print('\n'.join(map(str, x)))
+hi_squa_test1 = hi_squared_test(x, 10, hi_squared_critical_value)
+kolm_test1 = kolmogorov_test(x, kolmogorov_critical_value)
+
+print('Multiplexial congruential generator:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test1[1]) + ' <= '
+      + str(hi_squared_critical_value) if hi_squa_test1[0] else
+      'Zero hypothesis fails by Hi Squared Pirson criteria.')
+print('Kolmogorov criteria: ' + str(kolm_test1[1]) + ' <= '
+      + str(kolmogorov_critical_value) if kolm_test1[0]
+      else 'Zero hypothesis fails by Kolmogorov criteria.')
+
+plt.hist(x, 10, ec='#993300', facecolor='#ff9900')
+plt.title('Multiplexial congruential generator')
+plt.show()
