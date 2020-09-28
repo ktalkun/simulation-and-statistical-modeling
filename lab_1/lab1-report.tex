@@ -54,8 +54,7 @@
 			\end{aligned}
 		\end{array}
 		\right\}
-	$ - \textbf{\textit{параметры датчика
-	}}.
+	$ - \textbf{\textit{параметры датчика}}.
 }\\\\
 
 \textbf{Типовые значения параметров:} $m = 2^{31}, x_0 = \alpha = 65539$.
@@ -105,3 +104,91 @@
 	\caption{Значения $\chi^2$ при различных $P_{\chi^{2}}$ в зависимости от числа степеней свобод $\nu$.}
 	\label{fig:pirson_critical_values}
 \end{figure}
+
+\subsubsection{Критерий согласия Колмогорова}
+\textbf{\textit{Критерий согласия Колмогорова}} предназначен для проверки гипотезы о принадлежности выборки некоторому закону распределения, то есть проверки того, что эмпирическое распределение соответствует предполагаемой модели.
+
+\textbf{\textit{Эмпирическая функция распределения}} $\mathbf{F_{n}}$, построенная по выборке $X = (X_{1}, \ldots, X_{n})$, имеет вид:
+\begin{equation}
+	F_{n}(x) = \frac{1}{n} \sum_{i=1}^{n}I_{X_{i} \leqslant x}
+\end{equation}
+
+где $I_{X_{i} \leqslant x}$ указывает, попало ли наблюдение $X_{i}$ в область $(-\infty, x]$:
+\begin{equation}
+	I_{X_{i} \leqslant x} =
+	\begin{cases}{}
+		1, X_{i} \leqslant x \\
+		0, X_{i} > x         \\
+	\end{cases}
+\end{equation}
+
+\textbf{\textit{Статистика критерия}} для эмпирической функции распределения $F_{n}(x)$ определяется следующим образом:
+\begin{equation}
+	D_{n} = \sup_{x \in R} |F_{n}(x) - F(x)|
+\end{equation}
+
+\textbf{Принятие решения по критерию Колмогорова:}
+В случае справедливости \textit{нулевой гипотезы} ($H_{0}$) при $n \rightarrow + \infty$ статистика $D_{n}$ имеет распределение Колмогорова:
+\begin{equation}
+	\lim_{n \rightarrow \infty} P(\sqrt{n} D_{n} < x) = K(x)
+\end{equation}
+здесь
+\begin{equation}
+	K(x) = \sum_{k = -\infty}^{+\infty} (-1)^{k} e^{-2k^{2}x^{2}} \approx 1 - 2e^{-2x^{2}}, x \geqslant 0
+	\label{kolmogorov_distribution_function}
+\end{equation}
+- функция Колмогорова.\\
+
+При \textbf{\textit{уровне значимости}} $\alpha$ пороговое значение $C_{\alpha}$, находится из соотношения:
+\begin{equation}
+	K(C_{\alpha}) = 1 - \alpha
+	\label{threshold_value}
+\end{equation}
+
+Таким образом, для проверки гипотезы о виде распределения получаем:
+
+\begin{equation}
+	\rho (X) =
+	\begin{cases}{}
+		H_{0}, если \sqrt{n} D_{n} \leqslant \alpha, \\
+		H_{1}, если \sqrt{n} D_{n} > \alpha.         \\
+	\end{cases}
+\end{equation}
+
+\begin{figure}[t!]
+	\includegraphics [width=\textwidth] {kolmogorov_critical_values.png}
+	\caption{Значения $C_{\alpha}$ при различных $\alpha$.}
+	\label{fig:pirson_critical_values}
+\end{figure}
+
+\newpage
+\textbf{Пример:}
+при уровне значимости $\alpha = 0.05$ и пороговое значение из соотношений (\ref{kolmogorov_distribution_function}), (\ref{threshold_value}) $\mathbf{C_{\alpha} \approx 1.359}$.\\
+
+\textbf{Критерий согласия Колмогорова для непрерывного равномерное распределения}\\
+
+\textbf{\textit{Непрерывное равномерное распределение}} - распределение случайной вещественной величины, принимающей значения, принадлежащие некоторому промежутку конечно длины, характеризующая тем, что плотность вероятности на этом промежутке почти всюду постоянна.
+
+\textbf{\textit{Функция распределения:}}
+\begin{equation}
+	F_{X}(x)\equiv P(X \leqslant x) =
+	\begin{cases}{}
+		0, x < a                           \\
+		\frac{x-a}{b-a}, a \leqslant x < b \\
+		1, x \geqslant b                   \\
+	\end{cases}
+\end{equation}
+
+\textbf{\textit{Значения теоретическая функция распределения}} для интервала $[0, 10$:
+\begin{equation}
+	F(x) = \frac{x - 0}{1 - 0} = x
+\end{equation}
+
+\textbf{\textit{Значения эмпирической функции распределения}}.
+
+Для $x_{i}$ из выборки $X$, значение эмпирической функции распределения:
+\begin{equation}
+	F_{n}(x) = \frac{n_{i}}{n}
+\end{equation}
+
+где $n$ - количество элементов в выборке, $n_{i}$ - количество элементов в выборке меньших $x_{i}$.
