@@ -21,3 +21,15 @@ def mclaren_marsaglia_generator(x_generator, y_generator, k):
         j = math.floor(k * Y)
         yield V[j]
         V[j] = X
+
+
+def hi_squared_test(values, k, critical_value):
+    nu = [0] * k
+    for value in values:
+        nu[math.floor(value * k)] += 1
+    p_k = len(values) / k
+    hi_squared = 0
+    for value in nu:
+        hi_squared += ((value - p_k) ** 2) / p_k
+    #     Для уровня значимости 0.05 при 9-ти степенях свободы.
+    return hi_squared < critical_value, hi_squared
