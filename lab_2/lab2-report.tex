@@ -183,3 +183,35 @@
 \subsection{Код программы}
 
 \lstinputlisting[language=Python]{./lab_2/lab2.py}
+
+\subsection{Результат выполнения}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics [width=\textwidth] {results_lab_2.jpg}
+	\label{fig:results}
+	\caption{Результат выполнения программы: проверка критерием согласия Пирсона и подсчёт несмещённых оценок математического ожидания и дисперсии.}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{poisson_generator_l07.png}
+		\caption{Диаграмма выборки, полученной генератором распределения Пуассона при $\lambda = 0.7$.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{poisson_generator_l1.png}
+		\caption{Диаграмма выборки, полученной генератором распределения Пуассона при $\lambda = 1$.}
+	\end{subfigure}
+	\\
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{geometric_generator.png}
+		\caption{Диаграмма выборки, полученной генератором геометрического распределения.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{bernoulli_generator.png}
+		\caption{Диаграмма выборки, полученной генератором распределения Бернулли.}
+	\end{subfigure}
+\end{figure}
