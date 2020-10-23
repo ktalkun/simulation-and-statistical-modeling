@@ -7,6 +7,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{float}
 
 \author{Kirill Tolkun}
 
@@ -28,15 +29,16 @@
 \usepackage{indentfirst}
 
 \setcounter{section}{0}
-\setcounter{subsection}{1}
-\setcounter{subsubsection}{1}
 
 % Нумерация фурмул относительно нумерации секций
 \numberwithin{equation}{section}
 
 % Использование картинок в документе
 \usepackage{graphicx}
-\graphicspath{{lab_1/resources/}}
+\graphicspath{
+	{lab_1/resources/}
+	{lab_2/resources/}
+}
 \usepackage{subcaption}
 
 \usepackage{multicol}
@@ -134,4 +136,7 @@
 
 \end{titlepage}
 \input{lab_1/lab1-report.tex}
+\newpage
+\input{lab_2/lab2-report.tex}
+
 \end{document}
