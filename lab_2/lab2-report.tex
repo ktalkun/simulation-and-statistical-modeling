@@ -133,3 +133,49 @@
 	      \end{equation}
 	      где $[z]$ - округление числа $z$ в большую сторону до ближайшего целого значения.
 \end{enumerate}
+
+\subsubsection{Датчик случайной величины распределения Бернулли}
+
+\textbf{Распределение Бернулли} - дискретное распределение вероятностей, моделирующее случайный эксперимент произвольной природы, при заранее известной вероятности успеха или неудачи.:\
+
+\textbf{Функция распределения:}
+\begin{equation}
+	\begin{cases}{}
+		0, k < 0             \\
+		q, 0 \leqslant k < 1 \\
+		1, k \geqslant 1     \\
+	\end{cases}.
+\end{equation}
+
+\textbf{Функция вероятности:}
+\begin{equation}
+	\begin{cases}{}
+		q, k = 0 \\
+		p, k = 1 \\
+	\end{cases}.
+\end{equation}
+
+\textbf{Математическое ожидание:}
+\begin{equation}
+	p.
+\end{equation}
+
+\textbf{Дисперсия:}
+\begin{equation}
+	pq.
+\end{equation}
+
+\paragraph{Алгоритм моделирования:}\
+\
+
+\begin{enumerate}
+	\item Моделирование реализации $\alpha$ БСВ;
+	\item Принятие решения о том, что реализация $\xi$ является значением $x$, определяемым по правилу:
+	      \begin{equation}
+		      x =
+		      \begin{cases}{}
+			      1, \alpha \leqslant p \\
+			      0, \alpha > p         \\
+		      \end{cases}.
+	      \end{equation}
+\end{enumerate}
