@@ -27,6 +27,11 @@ def geometric_generator(p, linear_gen):
         yield math.floor(math.log(next(linear_gen)) / math.log(1 - p))
 
 
+def bernoulli_generator(p, linear_gen):
+    while True:
+        yield int(next(linear_gen) <= p)
+
+
 def hi_squared_test(values, distribution_func, critical_value):
     distinct_map = Counter(values).most_common()
     exampling_size = len(values)
@@ -59,6 +64,10 @@ def poisson_distribution_func(l, value):
 
 def geometric_distribution_func(p, unique_x_geometric, value):
     return (1 - p) ** unique_x_geometric.index(value) * p
+
+
+def bernoulli_distribution_func(p, value):
+    return p if value == 1 else 1 - p
 
 
 x0 = 79507
@@ -169,4 +178,39 @@ unique_x_geometric.append(unique_x_geometric[k_geometric - 1] + 1)
 plt.hist(x_geometric, bins=sorted(list(unique_x_geometric)), ec='#666633',
          facecolor="#99ff33")
 plt.title('Geometric generator,  $p = 0.2$')
+plt.show()
+
+# BERNOULLI SAMPLE.
+p = 0.75
+bernoulli_gen = bernoulli_generator(p, linear_congruential_generator(x0, alpha0,
+                                                                     0, m))
+x_bernoulli = [next(bernoulli_gen) for _ in range(1000)]
+# print('\n'.join(map(str, x_bernoulli)))
+
+critical_x_bernoulli = 10
+unique_x_bernoulli = sorted(list(Counter(x_bernoulli).keys()))
+# Кол-во степеней свободы (для 10 варианта 2 - 1 = 1 степеней свободы)
+k_bernoulli = len(unique_x_bernoulli)
+critical_value_bernoulli = 3.841
+hi_squa_test4 = hi_squared_test(x_bernoulli,
+                                partial(bernoulli_distribution_func, p),
+                                critical_value_bernoulli)
+print('Geometric generator, p = 1:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test4[1]) + ' <= '
+      + str(critical_value_bernoulli) if hi_squa_test4[0] else
+      'Zero hypothesis fails by Hi Squared Pirson criteria.')
+
+theoretical_expectation = p
+empirical_dispersion = empirical_dispersion_func(x_poisson)
+theoretical_dispersion = p * (1 - p)
+empirical_expectation = empirical_expectation_func(x_poisson)
+print('theoretical expectation: ', theoretical_expectation)
+print('empirical expectation: ', empirical_expectation)
+print('theoretical dispersion: ', theoretical_dispersion)
+print('empirical dispersion: ', empirical_dispersion)
+
+unique_x_bernoulli.append(unique_x_bernoulli[k_bernoulli - 1] + 1)
+plt.hist(x_bernoulli, bins=unique_x_bernoulli, ec='#666633',
+         facecolor="#99ff33")
+plt.title('Bernoulli generator,  $p = 0.75$')
 plt.show()
