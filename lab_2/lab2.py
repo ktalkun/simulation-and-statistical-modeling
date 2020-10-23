@@ -91,3 +91,38 @@ plt.hist(x_poisson, bins=unique_x_poisson, ec='#666633',
          facecolor="#99ff33")
 plt.title('Poisson generator,  $\lambda = 0.7$')
 plt.show()
+
+# POISSON SAMPLE, LAMBDA = 1
+l = 1
+poisson_gen = poisson_generator(l, linear_congruential_generator(x0, alpha0,
+                                                                 0, m))
+x_poisson = [next(poisson_gen) for _ in range(1000)]
+# print('\n'.join(map(str, x_poisson)))
+
+unique_x_poisson = sorted(list(Counter(x_poisson).keys()))
+# Кол-во степеней свободы (для 10 варианта 6 - 1 = 5 степеней свободы)
+k_poisson = len(unique_x_poisson)
+critical_value_poisson = 11.07
+hi_squa_test2 = hi_squared_test(x_poisson,
+                                partial(poisson_distribution_func, l),
+                                critical_value_poisson)
+print('Poisson generator, lambda = 1:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test2[1]) + ' <= '
+      + str(critical_value_poisson) if hi_squa_test2[0] else
+      'Zero hypothesis fails by Hi Squared Pirson criteria.')
+
+theoretical_expectation = l
+empirical_dispersion = empirical_dispersion_func(x_poisson)
+theoretical_dispersion = l
+empirical_expectation = empirical_expectation_func(x_poisson)
+print('theoretical expectation: ', theoretical_expectation)
+print('empirical expectation: ', empirical_expectation)
+print('theoretical dispersion: ', theoretical_dispersion)
+print('empirical dispersion: ', empirical_dispersion)
+print('')
+
+unique_x_poisson.append(unique_x_poisson[k_poisson - 1] + 1)
+plt.hist(x_poisson, bins=unique_x_poisson, ec='#666633',
+         facecolor="#99ff33")
+plt.title('Poisson generator, $\lambda = 1$')
+plt.show()
