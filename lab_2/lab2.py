@@ -22,6 +22,11 @@ def poisson_generator(l, linear_gen):
         yield j - 1
 
 
+def geometric_generator(p, linear_gen):
+    while True:
+        yield math.floor(math.log(next(linear_gen)) / math.log(1 - p))
+
+
 def hi_squared_test(values, distribution_func, critical_value):
     distinct_map = Counter(values).most_common()
     exampling_size = len(values)
@@ -50,6 +55,10 @@ def empirical_dispersion_func(values):
 
 def poisson_distribution_func(l, value):
     return l ** value * math.exp(-l) / math.factorial(value)
+
+
+def geometric_distribution_func(p, unique_x_geometric, value):
+    return (1 - p) ** unique_x_geometric.index(value) * p
 
 
 x0 = 79507
@@ -125,4 +134,39 @@ unique_x_poisson.append(unique_x_poisson[k_poisson - 1] + 1)
 plt.hist(x_poisson, bins=unique_x_poisson, ec='#666633',
          facecolor="#99ff33")
 plt.title('Poisson generator, $\lambda = 1$')
+plt.show()
+
+# GEOMETRIC SAMPLE.
+p = 0.2
+geometric_gen = geometric_generator(p, linear_congruential_generator(x0, alpha0,
+                                                                     0, m))
+x_geometric = [next(geometric_gen) for _ in range(1000)]
+# print('\n'.join(map(str, x_geometric)))
+
+unique_x_geometric = sorted(list(Counter(x_geometric).keys()))
+# Кол-во степеней свободы (для 10 варианта 27 - 1 = 26 степеней свободы)
+k_geometric = len(unique_x_geometric)
+critical_value_geometric = 38.89
+hi_squa_test3 = hi_squared_test(x_geometric,
+                                partial(geometric_distribution_func, p,
+                                        unique_x_geometric),
+                                critical_value_geometric)
+print('Geometric generator, p = 1:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test3[1]) + ' <= '
+      + str(critical_value_geometric) if hi_squa_test3[0] else
+      'Zero hypothesis fails by Hi Squared Pirson criteria.')
+theoretical_expectation = 1 / p
+empirical_dispersion = empirical_dispersion_func(x_geometric)
+theoretical_dispersion = (1 - p) / p ** 2
+empirical_expectation = empirical_expectation_func(x_geometric)
+print('theoretical expectation: ', theoretical_expectation)
+print('empirical expectation: ', empirical_expectation)
+print('theoretical dispersion: ', theoretical_dispersion)
+print('empirical dispersion: ', empirical_dispersion)
+print('')
+
+unique_x_geometric.append(unique_x_geometric[k_geometric - 1] + 1)
+plt.hist(x_geometric, bins=sorted(list(unique_x_geometric)), ec='#666633',
+         facecolor="#99ff33")
+plt.title('Geometric generator,  $p = 0.2$')
 plt.show()
