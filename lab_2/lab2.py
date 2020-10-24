@@ -72,7 +72,6 @@ def bernoulli_distribution_func(p, value):
 
 x0 = 79507
 alpha0 = 79507
-K = 64
 m = 2 ** 31
 
 # POISSON SAMPLE, LAMBDA = 0.7.
