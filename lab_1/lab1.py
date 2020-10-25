@@ -48,7 +48,7 @@ def kolmogorov_test(values, critical_value):
         theoretical_func_res = value
         # кол-во значение в выборке меньших текущего значения из выборки.
         empirical_function_result = i / n
-        Dn = max(Dn, theoretical_func_res - empirical_function_result)
+        Dn = max(Dn, abs(theoretical_func_res - empirical_function_result))
     Dn *= math.sqrt(n)
     return Dn < critical_value, Dn
 
