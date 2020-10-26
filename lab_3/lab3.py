@@ -3,7 +3,7 @@ import random
 from functools import partial
 
 import matplotlib.pyplot as plt
-from scipy.stats import norm, chi2, kstwobign, lognorm
+from scipy.stats import norm, chi2, kstwobign, lognorm, expon
 
 
 def linear_congruential_generator(x, alpha, c, m):
@@ -19,6 +19,11 @@ def normal_generator(mu, sigma, linear_gen):
         z0 = math.sqrt(-2.0 * math.log(u1)) * math.cos(2 * math.pi * u2)
         # z1 = math.sqrt(-2.0 * math.log(u1)) * math.sin(2 * math.pi * u2)
         yield mu + z0 * sigma
+
+
+def exponential_generator(l, linear_gen):
+    while True:
+        yield -1 / l * math.log(next(linear_gen))
 
 
 def lognormal_generator(mu, sigma, linear_gen):
@@ -75,6 +80,10 @@ def cumulative_norm_distrib_func(mu, sigma, value):
 
 def cumulative_lognorm_distrib_func(mu, sigma, value):
     return lognorm.cdf(value, scale=math.exp(mu), s=sigma)
+
+
+def cumulative_exponential_distrib_func(l, value):
+    return expon.cdf(value, scale=1 / l)
 
 
 def built_in_random():
@@ -207,6 +216,45 @@ empirical_dispersion = empirical_dispersion_func(x_lognormal)
 theoretical_dispersion = (math.exp(sigma ** 2) - 1) * math.exp(
     2 * mu + sigma ** 2)
 empirical_expectation = empirical_expectation_func(x_lognormal)
+print('theoretical expectation: ', theoretical_expectation)
+print('empirical expectation: ', empirical_expectation)
+print('theoretical dispersion: ', theoretical_dispersion)
+print('empirical dispersion: ', empirical_dispersion)
+print('')
+
+# EXPONENTIAL SAMPLE, LAMBDA = 2
+l = 2
+
+exponential_gen = exponential_generator(l, generator)
+x_exponential = [next(exponential_gen) for _ in range(1000)]
+# print('\n'.join(map(str, x_exponential)))
+
+freq_exponential, borders_exponential, _ = plt.hist(x_exponential, bins='auto',
+                                                    ec='#666633',
+                                                    facecolor="#99ff33")
+plt.title('Exponential generator,  $\lambda= 2$')
+plt.show()
+
+hi_squa_test4 = hi_squared_test(freq_exponential,
+                                borders_exponential,
+                                partial(cumulative_exponential_distrib_func, l),
+                                p_value)
+
+print('Exponential generator, lambda = 2:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test4[1]) + ' <= '
+      + str(hi_squa_test4[2]) if hi_squa_test4[0] else
+      'Zero hypothesis fails by Hi Squared Pirson criteria.')
+kolm_test4 = kolmogorov_test(x_exponential,
+                             partial(cumulative_exponential_distrib_func, l),
+                             p_value)
+print('Kolmogorov criteria: ' + str(kolm_test4[1]) + ' <= '
+      + str(kolm_test4[2]) if kolm_test4[0]
+      else 'Zero hypothesis fails by Kolmogorov criteria.')
+
+theoretical_expectation = 1 / l
+empirical_dispersion = empirical_dispersion_func(x_exponential)
+theoretical_dispersion = 1 / l ** 2
+empirical_expectation = empirical_expectation_func(x_exponential)
 print('theoretical expectation: ', theoretical_expectation)
 print('empirical expectation: ', empirical_expectation)
 print('theoretical dispersion: ', theoretical_dispersion)
