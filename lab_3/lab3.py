@@ -3,7 +3,8 @@ import random
 from functools import partial
 
 import matplotlib.pyplot as plt
-from scipy.stats import norm, chi2, kstwobign, lognorm, expon, laplace
+from scipy.stats import norm, chi2, kstwobign, lognorm, expon, laplace, \
+    weibull_min
 
 
 def linear_congruential_generator(x, alpha, c, m):
@@ -39,6 +40,11 @@ def laplace_generator(alpha, linear_gen):
             yield 1 / alpha * math.log(2 * y)
         else:
             yield -1 / alpha * math.log(2 * (1 - y))
+
+
+def weibull_generator(l, k, linear_gen):
+    while True:
+        yield l * ((-math.log(next(linear_gen))) ** (1 / k))
 
 
 def hi_squared_test(frequencies, borders, distribution_func, p_value):
@@ -97,6 +103,10 @@ def cumulative_exponential_distrib_func(l, value):
 
 def cumulative_laplace_distrib_func(alpha, betta, value):
     return laplace.cdf(value, scale=1 / alpha, loc=betta)
+
+
+def cumulative_weibull_distrib_func(l, k, value):
+    return weibull_min.cdf(value, k, scale=l)
 
 
 def built_in_random():
@@ -310,6 +320,46 @@ theoretical_expectation = beta
 empirical_dispersion = empirical_dispersion_func(x_laplace)
 theoretical_dispersion = 2 / alpha ** 2
 empirical_expectation = empirical_expectation_func(x_laplace)
+print('theoretical expectation: ', theoretical_expectation)
+print('empirical expectation: ', empirical_expectation)
+print('theoretical dispersion: ', theoretical_dispersion)
+print('empirical dispersion: ', empirical_dispersion)
+print('')
+
+# WEIBULL  SAMPLE, LAMBDA = 1, K = 0.5
+l = 1
+k = 0.5
+
+weibull_gen = weibull_generator(l, k, generator)
+x_weibull = [next(weibull_gen) for _ in range(1000)]
+# print('\n'.join(map(str, x_weibull)))
+
+freq_weibull, borders_weibull, _ = plt.hist(x_weibull, bins='auto',
+                                            ec='#666633',
+                                            facecolor="#99ff33")
+plt.title(r'Weibull generator, $\lambda = 1, k = 0.5$')
+plt.show()
+
+hi_squa_test = hi_squared_test(freq_weibull,
+                               borders_weibull,
+                               partial(cumulative_weibull_distrib_func, l, k),
+                               p_value)
+
+print('Weibull generator, lambda = 1, k = 0.5:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test[1]) + ' <= '
+      + str(hi_squa_test[2]) if hi_squa_test[0] else
+      'Zero hypothesis fails by Hi Squared Pirson criteria.')
+kolm_test = kolmogorov_test(x_weibull,
+                            partial(cumulative_weibull_distrib_func, l, k),
+                            p_value)
+print('Kolmogorov criteria: ' + str(kolm_test[1]) + ' <= '
+      + str(kolm_test[2]) if kolm_test[0]
+      else 'Zero hypothesis fails by Kolmogorov criteria.')
+
+theoretical_expectation = weibull_min.mean(k, scale=l)
+empirical_dispersion = empirical_dispersion_func(x_weibull)
+theoretical_dispersion = weibull_min.var(k, scale=l)
+empirical_expectation = empirical_expectation_func(x_weibull)
 print('theoretical expectation: ', theoretical_expectation)
 print('empirical expectation: ', empirical_expectation)
 print('theoretical dispersion: ', theoretical_dispersion)
