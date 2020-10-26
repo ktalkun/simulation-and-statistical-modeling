@@ -119,3 +119,43 @@ print('empirical expectation: ', empirical_expectation)
 print('theoretical dispersion: ', theoretical_dispersion)
 print('empirical dispersion: ', empirical_dispersion)
 print('')
+
+# NORMAL SAMPLE, MU = 0, SIGMA^2 = 1
+mu = 0
+sigma = 1
+
+normal_gen = normal_generator(mu, sigma, generator)
+x_normal = [next(normal_gen) for _ in range(1000)]
+# print('\n'.join(map(str, x_normal)))
+
+freq_normal, borders_normal, _ = plt.hist(x_normal, bins='auto',
+                                          ec='#666633',
+                                          facecolor="#99ff33")
+plt.title('Normal generator,  $\mu = 0, \sigma^2=1$')
+plt.show()
+
+hi_squa_test2 = hi_squared_test(freq_normal,
+                                borders_normal,
+                                partial(cumulative_norm_distrib_func,
+                                        mu, sigma),
+                                p_value)
+print('Normal generator, mu = 0, sigma^2 = 1:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test2[1]) + ' <= '
+      + str(hi_squa_test2[2]) if hi_squa_test2[0] else
+      'Zero hypothesis fails by Hi Squared Pirson criteria.')
+kolm_test2 = kolmogorov_test(x_normal,
+                             partial(cumulative_norm_distrib_func, mu, sigma),
+                             p_value)
+print('Kolmogorov criteria: ' + str(kolm_test2[1]) + ' <= '
+      + str(kolm_test2[2]) if kolm_test2[0]
+      else 'Zero hypothesis fails by Kolmogorov criteria.')
+
+theoretical_expectation = mu
+empirical_dispersion = empirical_dispersion_func(x_normal)
+theoretical_dispersion = sigma ** 2
+empirical_expectation = empirical_expectation_func(x_normal)
+print('theoretical expectation: ', theoretical_expectation)
+print('empirical expectation: ', empirical_expectation)
+print('theoretical dispersion: ', theoretical_dispersion)
+print('empirical dispersion: ', empirical_dispersion)
+print('')
