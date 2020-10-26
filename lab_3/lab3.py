@@ -3,7 +3,7 @@ import random
 from functools import partial
 
 import matplotlib.pyplot as plt
-from scipy.stats import norm, chi2, kstwobign
+from scipy.stats import norm, chi2, kstwobign, lognorm
 
 
 def linear_congruential_generator(x, alpha, c, m):
@@ -19,6 +19,12 @@ def normal_generator(mu, sigma, linear_gen):
         z0 = math.sqrt(-2.0 * math.log(u1)) * math.cos(2 * math.pi * u2)
         # z1 = math.sqrt(-2.0 * math.log(u1)) * math.sin(2 * math.pi * u2)
         yield mu + z0 * sigma
+
+
+def lognormal_generator(mu, sigma, linear_gen):
+    normal_gen = normal_generator(mu, sigma, linear_gen)
+    while True:
+        yield math.exp(next(normal_gen))
 
 
 def hi_squared_test(frequencies, borders, distribution_func, p_value):
@@ -65,6 +71,10 @@ def empirical_dispersion_func(values):
 
 def cumulative_norm_distrib_func(mu, sigma, value):
     return norm.cdf(value, mu, sigma)
+
+
+def cumulative_lognorm_distrib_func(mu, sigma, value):
+    return lognorm.cdf(value, scale=math.exp(mu), s=sigma)
 
 
 def built_in_random():
@@ -154,6 +164,49 @@ theoretical_expectation = mu
 empirical_dispersion = empirical_dispersion_func(x_normal)
 theoretical_dispersion = sigma ** 2
 empirical_expectation = empirical_expectation_func(x_normal)
+print('theoretical expectation: ', theoretical_expectation)
+print('empirical expectation: ', empirical_expectation)
+print('theoretical dispersion: ', theoretical_dispersion)
+print('empirical dispersion: ', empirical_dispersion)
+print('')
+
+# LOGNORMAL SAMPLE, MU = 1, SIGMA^2 = 9
+mu = 1
+sigma = 3
+
+lognormal_gen = lognormal_generator(mu, sigma, generator)
+x_lognormal = [next(lognormal_gen) for _ in range(1000)]
+# print('\n'.join(map(str, x_lognormal)))
+
+freq_lognormal, borders_lognormal, _ = plt.hist(x_lognormal, bins='auto',
+                                                ec='#666633',
+                                                facecolor="#99ff33")
+plt.title('Lognormal generator,  $\mu = 1, \sigma^2=9$')
+plt.show()
+
+hi_squa_test3 = hi_squared_test(freq_lognormal,
+                                borders_lognormal,
+                                partial(cumulative_norm_distrib_func,
+                                        mu, sigma),
+                                p_value)
+
+print('Lognormal generator, mu = 1, sigma^2 = 9:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test3[1]) + ' <= '
+      + str(hi_squa_test3[2]) if hi_squa_test3[0] else
+      'Zero hypothesis fails by Hi Squared Pirson criteria.')
+kolm_test3 = kolmogorov_test(x_lognormal,
+                             partial(cumulative_lognorm_distrib_func, mu,
+                                     sigma),
+                             p_value)
+print('Kolmogorov criteria: ' + str(kolm_test3[1]) + ' <= '
+      + str(kolm_test3[2]) if kolm_test3[0]
+      else 'Zero hypothesis fails by Kolmogorov criteria.')
+
+theoretical_expectation = math.exp(mu + sigma ** 2 / 2)
+empirical_dispersion = empirical_dispersion_func(x_lognormal)
+theoretical_dispersion = (math.exp(sigma ** 2) - 1) * math.exp(
+    2 * mu + sigma ** 2)
+empirical_expectation = empirical_expectation_func(x_lognormal)
 print('theoretical expectation: ', theoretical_expectation)
 print('empirical expectation: ', empirical_expectation)
 print('theoretical dispersion: ', theoretical_dispersion)
