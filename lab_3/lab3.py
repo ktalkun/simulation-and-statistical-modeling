@@ -3,7 +3,7 @@ import random
 from functools import partial
 
 import matplotlib.pyplot as plt
-from scipy.stats import norm, chi2, kstwobign, lognorm, expon
+from scipy.stats import norm, chi2, kstwobign, lognorm, expon, laplace
 
 
 def linear_congruential_generator(x, alpha, c, m):
@@ -30,6 +30,15 @@ def lognormal_generator(mu, sigma, linear_gen):
     normal_gen = normal_generator(mu, sigma, linear_gen)
     while True:
         yield math.exp(next(normal_gen))
+
+
+def laplace_generator(alpha, linear_gen):
+    while True:
+        y = next(linear_gen)
+        if 0 <= y < 0.5:
+            yield 1 / alpha * math.log(2 * y)
+        else:
+            yield -1 / alpha * math.log(2 * (1 - y))
 
 
 def hi_squared_test(frequencies, borders, distribution_func, p_value):
@@ -84,6 +93,10 @@ def cumulative_lognorm_distrib_func(mu, sigma, value):
 
 def cumulative_exponential_distrib_func(l, value):
     return expon.cdf(value, scale=1 / l)
+
+
+def cumulative_laplace_distrib_func(alpha, betta, value):
+    return laplace.cdf(value, scale=1 / alpha, loc=betta)
 
 
 def built_in_random():
@@ -255,6 +268,48 @@ theoretical_expectation = 1 / l
 empirical_dispersion = empirical_dispersion_func(x_exponential)
 theoretical_dispersion = 1 / l ** 2
 empirical_expectation = empirical_expectation_func(x_exponential)
+print('theoretical expectation: ', theoretical_expectation)
+print('empirical expectation: ', empirical_expectation)
+print('theoretical dispersion: ', theoretical_dispersion)
+print('empirical dispersion: ', empirical_dispersion)
+print('')
+
+# LAPLACE  SAMPLE, ALPHA = 0.5, BETTA = 0
+alpha = 0.5
+beta = 0
+
+laplace_gen = laplace_generator(alpha, generator)
+x_laplace = [next(laplace_gen) for _ in range(1000)]
+# print('\n'.join(map(str, x_laplace)))
+
+freq_laplace, borders_laplace, _ = plt.hist(x_laplace, bins='auto',
+                                            ec='#666633',
+                                            facecolor="#99ff33")
+plt.title(r'Laplace generator, $\alpha = 0.5, \beta = 0$')
+plt.show()
+
+hi_squa_test5 = hi_squared_test(freq_laplace,
+                                borders_laplace,
+                                partial(cumulative_laplace_distrib_func, alpha,
+                                        beta),
+                                p_value)
+
+print('Laplace generator, alpha = 0.5, betta = 0:')
+print('Hi Squared Pirson criteria: ' + str(hi_squa_test5[1]) + ' <= '
+      + str(hi_squa_test5[2]) if hi_squa_test5[0] else
+      'Zero hypothesis fails by Hi Squared Pirson criteria.')
+kolm_test5 = kolmogorov_test(x_laplace,
+                             partial(cumulative_laplace_distrib_func, alpha,
+                                     beta),
+                             p_value)
+print('Kolmogorov criteria: ' + str(kolm_test5[1]) + ' <= '
+      + str(kolm_test5[2]) if kolm_test5[0]
+      else 'Zero hypothesis fails by Kolmogorov criteria.')
+
+theoretical_expectation = beta
+empirical_dispersion = empirical_dispersion_func(x_laplace)
+theoretical_dispersion = 2 / alpha ** 2
+empirical_expectation = empirical_expectation_func(x_laplace)
 print('theoretical expectation: ', theoretical_expectation)
 print('empirical expectation: ', empirical_expectation)
 print('theoretical dispersion: ', theoretical_dispersion)
