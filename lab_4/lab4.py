@@ -76,3 +76,32 @@ discrepancy = [abs(x - exact_result) for x in results]
 plt.plot(steps, discrepancy)
 plt.show()
 print("Task 1: " + str(results[len(results) - 1]))
+
+# Task2
+exact_result = 3.8579
+exampling_size = 1000000
+x_from = 0
+x_to = 2 * math.pi
+y_from = 1
+y_to = 2
+
+xy_sample = [next(normal_gen) for _ in range(exampling_size)]
+xy_sample_in_area = list(
+    filter(lambda xy: 0 < xy[0] < 1 and 0 < xy[1] < 1, xy_sample))
+
+step = len(xy_sample_in_area) // 100  # 10 segments
+steps = []
+results = []
+
+sum_res = 0
+for size in range(step, len(xy_sample_in_area) + 1, step):
+    sum_res += calc_double_integral(xy_sample_in_area, size - step, size)
+    results.append(sum_res)
+    steps.append(size)
+
+results = [x / (i + 1) for x, i in zip(results, range(0, len(results)))]
+
+discrepancy = [abs(x - exact_result) for x in results]
+plt.plot(steps, discrepancy)
+plt.show()
+print("Task 2: " + str(results[len(results) - 1]))
