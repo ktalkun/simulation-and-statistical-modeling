@@ -109,3 +109,48 @@
 		      x = -\frac{1}{\lambda}\ln(\alpha)
 	      \end{equation}
 \end{enumerate}
+
+\subsubsection{Датчик случайной величины распределения Лапласа}
+
+\textbf{Распределение Лапласа} - в теории вероятностей это непрерывное распределение случайной величины, при котором плотность вероятности есть $f(x)=\frac{\alpha}{2} \cdot e^{-\alpha|x-\beta|}, -\infty < x < +\infty$, где $\alpha > 0$ - параметр масштаба, $-\infty < \beta < +\infty$ - параметр сдвига.\\
+
+\textbf{Функция распределения:}
+\begin{equation}
+	\begin{cases}{}
+		\frac{1}{2}e^{\alpha(x-\beta)}\\
+		1-\frac{1}{2}e^{\alpha(x-\beta)}
+	\end{cases}.
+\end{equation}
+
+\textbf{Функция плотности:}
+\begin{equation}
+	\frac{\alpha}{2}e^{-\alpha|x-\beta|}.
+\end{equation}
+
+\textbf{Математическое ожидание:}
+\begin{equation}
+	\beta.
+\end{equation}
+
+\textbf{Дисперсия:}
+\begin{equation}
+	\frac{2}{\alpha^{2}}.
+\end{equation}
+
+\paragraph{Алгоритм моделирования:}\
+\\
+Алгоритм моделирования $\xi \thicksim L(\lambda)$ основан на методе обратной функции. Обратная для функции распределения $F_{\xi}(x)$ функция имеет вид:
+
+\begin{equation}
+	\begin{cases}
+		x = F_{\xi}^{-1}(y) = \frac{1}{\lambda}\ln(2y) < 0, y \in [0, 0.5)\\
+		x = F_{\xi}^{-1}(y) = \frac{1}{\lambda}\ln(2(1-y)) < 0, y \in [0.5, 1)
+		\label{laplace_generator:ref}
+	\end{cases}
+\end{equation}
+
+Для моделирования реализация $x$ СВ $\xi \thicksim L(\lambda)$ выполняются следующие действия:
+\begin{enumerate}
+	\item Моделирование реализации $\alpha$ БСВ;
+	\item Принимается решение о том, что реализацией СВ $\xi$ является величина $x$, вычисляемая по формулам (\ref{laplace_generator:ref}) согласно отрезку, которому принадлежит $y$.
+\end{enumerate}
