@@ -197,3 +197,45 @@
 \subsection{Код программы}
 
 \lstinputlisting[language=Python]{./lab_3/lab3.py}
+
+\subsection{Результат выполнения}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics [width=\textwidth] {results_lab_3.png}
+	\label{fig:results}
+	\caption{Результат выполнения программы: проверка критерием согласия Пирсона и Колмогорова. Вывод теоретических и подсчёт эмпирических математических ожиданий и дисперсийё.}
+\end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{normal_generator_mu_1_sigma_3.png}
+		\caption{Диаграмма выборки, полученной генератором нормального распределения при $\mu = 1, \sigma^{2} = 9$.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{normal_generator_mu_0_sigma_1.png}
+		\caption{Диаграмма выборки, полученной генератором нормального распределения при $\mu = 0, \sigma^{2} = 1$.}
+	\end{subfigure}
+	\\
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{lognormal_generator_mu_1_sigma_3.png}
+		\caption{Диаграмма выборки, полученной генератором логнормального распределения при $\mu = 1, \sigma^{2} = 9$.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{exponential_generator_lambda_2.png}
+		\caption{Диаграмма выборки, полученной генератором экспоненциального распределения при $\lambda = 2$.}
+	\end{subfigure}
+	\\
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{laplace_generator_alpha_0.5_betta_0.png}
+		\caption{Диаграмма выборки, полученной генератором распределения Лапласа при $\alpha = 0.5, \beta = 0$.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{weibull_generator_lambda_1_k_0.5.png}
+		\caption{Диаграмма выборки, полученной генератором распределения Вейбула при $\lambda = 1, k = 0.5$.}
+	\end{subfigure}
+\end{figure}
