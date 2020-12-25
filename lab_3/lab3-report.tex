@@ -154,3 +154,42 @@
 	\item Моделирование реализации $\alpha$ БСВ;
 	\item Принимается решение о том, что реализацией СВ $\xi$ является величина $x$, вычисляемая по формулам (\ref{laplace_generator:ref}) согласно отрезку, которому принадлежит $y$.
 \end{enumerate}
+
+\subsubsection{Датчик случайной величины распределения Вейбула}
+
+\textbf{Распределение Вейбула} - в теории вероятностей это двухпараметрическое семейство абсолютно непрерывных распределений.\\
+
+\textbf{Функция распределения:}
+\begin{equation}
+	1-e^{-(x/\lambda)^{k}}.
+\end{equation}
+
+\textbf{Функция плотности:}
+\begin{equation}
+	\frac{k}{\lambda} \cdot \left(\frac{x}{\lambda}\right)^{k-1} \cdot e^{-(x/\lambda)^{k}}.
+\end{equation}
+
+\textbf{Математическое ожидание:}
+\begin{equation}
+	\lambda\Gamma\left(1+\frac{1}{k}\right).
+\end{equation}
+
+\textbf{Дисперсия:}
+\begin{equation}
+	\lambda^{2}\Gamma\left(1+\frac{2}{k}\right) - \mu^{2}.
+\end{equation}
+
+\paragraph{Алгоритм моделирования:}\
+\\
+Алгоритм моделирования $\xi \thicksim WG(\lambda, k)$ основан на методе обратной функции. Обратная для функции распределения $F_{\xi}(x)$ функция имеет вид:
+
+\begin{equation}
+		x = F_{\xi}^{-1}(y) = \left(-\frac{1}{\lambda}\ln(y)\right)^{1/k}.
+		\label{weibul_generator:ref}
+\end{equation}
+
+Для моделирования реализация $x$ СВ $\xi \thicksim L(\lambda)$ выполняются следующие действия:
+\begin{enumerate}
+	\item Моделирование реализации $\alpha$ БСВ;
+	\item Принимается решение о том, что реализацией СВ $\xi$ является величина $x$, вычисляемая по формулам (\ref{weibul_generator:ref}), где $y=\alpha$.
+\end{enumerate}
