@@ -44,10 +44,10 @@
 При моделировании будем использовать \textbf{преобразование Бокса-Мюллера}. Пусть $r$ b $\phi$ - независимые случайные величины, равномерно распределённые на интервале $(0, 1]$. Вычислим $z_{0}, z_{1}$ по формулам:
 
 \begin{equation}
-  \begin{array}{l}
-	z_{0} = \cos(2\pi\phi)\sqrt{-2\ln(r)},\\
-	z_{1} = \sin(2\pi\phi)\sqrt{-2\ln(r)}.
-  \end{array}
+	\begin{array}{l}
+		z_{0} = \cos(2\pi\phi)\sqrt{-2\ln(r)}, \\
+		z_{1} = \sin(2\pi\phi)\sqrt{-2\ln(r)}.
+	\end{array}
 \end{equation}
 
 Тогда $z_{0}, z_{1}$ будут независимы и распределены нормально с математическим ожиданием 0 и дисперсией 1.
@@ -117,7 +117,7 @@
 \textbf{Функция распределения:}
 \begin{equation}
 	\begin{cases}{}
-		\frac{1}{2}e^{\alpha(x-\beta)}\\
+		\frac{1}{2}e^{\alpha(x-\beta)} \\
 		1-\frac{1}{2}e^{\alpha(x-\beta)}
 	\end{cases}.
 \end{equation}
@@ -139,11 +139,12 @@
 
 \paragraph{Алгоритм моделирования:}\
 \\
+
 Алгоритм моделирования $\xi \thicksim L(\lambda)$ основан на методе обратной функции. Обратная для функции распределения $F_{\xi}(x)$ функция имеет вид:
 
 \begin{equation}
 	\begin{cases}
-		x = F_{\xi}^{-1}(y) = \frac{1}{\lambda}\ln(2y) < 0, y \in [0, 0.5)\\
+		x = F_{\xi}^{-1}(y) = \frac{1}{\lambda}\ln(2y) < 0, y \in [0, 0.5) \\
 		x = F_{\xi}^{-1}(y) = \frac{1}{\lambda}\ln(2(1-y)) < 0, y \in [0.5, 1)
 		\label{laplace_generator:ref}
 	\end{cases}
@@ -181,11 +182,12 @@
 
 \paragraph{Алгоритм моделирования:}\
 \\
+
 Алгоритм моделирования $\xi \thicksim WG(\lambda, k)$ основан на методе обратной функции. Обратная для функции распределения $F_{\xi}(x)$ функция имеет вид:
 
 \begin{equation}
-		x = F_{\xi}^{-1}(y) = \left(-\frac{1}{\lambda}\ln(y)\right)^{1/k}.
-		\label{weibul_generator:ref}
+	x = F_{\xi}^{-1}(y) = \left(-\frac{1}{\lambda}\ln(y)\right)^{1/k}.
+	\label{weibul_generator:ref}
 \end{equation}
 
 Для моделирования реализация $x$ СВ $\xi \thicksim L(\lambda)$ выполняются следующие действия:
@@ -203,7 +205,7 @@
 \begin{figure}[H]
 	\centering
 	\includegraphics [width=\textwidth] {results_lab_3.png}
-	\label{fig:results}
+	\label{fig:results_lab_3}
 	\caption{Результат выполнения программы: проверка критерием согласия Пирсона и Колмогорова. Вывод теоретических и подсчёт эмпирических математических ожиданий и дисперсийё.}
 \end{figure}
 
